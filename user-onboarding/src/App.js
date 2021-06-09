@@ -2,6 +2,7 @@ import "./App.css";
 import Form from "./components/Form";
 import { useState } from "react";
 import axios from "axios";
+import User from "./components/User";
 
 const initialFormValues = {
   name: "",
@@ -65,6 +66,10 @@ function App() {
         submit={formSubmit}
         disabled={disabled}
       />
+
+      {users.map((user) => {
+        return <User details={user} />;
+      })}
     </div>
   );
 }

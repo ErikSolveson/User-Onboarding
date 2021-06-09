@@ -9,8 +9,9 @@ export default function Form(props) {
     submit();
   };
   const onChange = (event) => {
+    const { name, value, checked, type } = event.target;
     console.log("something changed!");
-    change();
+    change(name, value);
   };
 
   return (
@@ -58,6 +59,7 @@ export default function Form(props) {
           name="TermsOfService"
         />
       </label>
+      <button>submit</button>
     </form>
   );
 }
