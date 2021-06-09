@@ -26,7 +26,7 @@ const API_URL = `https://reqres.in/api/users`;
 function App() {
   const [users, setUsers] = useState(initialUsers);
   const [formValues, setFormValues] = useState(initialFormValues);
-  const [formErros, setFormErrors] = useState(initialFormErrors);
+  const [formErrors, setFormErrors] = useState(initialFormErrors);
   const [disabled, setDisabled] = useState(initialDisabled);
 
   const postNewUser = (newUser) => {
@@ -42,9 +42,9 @@ function App() {
   const formSubmit = () => {
     console.log("trying to submit the form");
     const newUser = {
-      Name: formValues.name.trim(),
-      Email: formValues.email.trim(),
-      Password: formValues.password.trim(),
+      name: formValues.name.trim(),
+      email: formValues.email.trim(),
+      password: formValues.password.trim(),
       // TermsOfService: [true, false].filter()
     };
 
@@ -65,11 +65,19 @@ function App() {
         change={inputChange}
         submit={formSubmit}
         disabled={disabled}
+        errors={formErrors}
       />
-
-      {users.map((user) => {
-        return <User details={user} />;
-      })}
+      <div className="user-container">
+        {users.map((user) => {
+          return (
+            <User
+              name={user.name}
+              email={user.email}
+              password={user.password}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }

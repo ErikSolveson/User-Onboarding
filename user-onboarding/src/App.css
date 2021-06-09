@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+.user {
+  background-color: gainsboro;
+  width: 30%;
+  margin-left: 40%;
+  margin-right: 40%;
+  margin-top: 20px;
+  border-radius: 50%;
+}
+
+.user-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
