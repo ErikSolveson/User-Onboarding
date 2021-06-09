@@ -1,8 +1,10 @@
 import "./App.css";
 import Form from "./components/Form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import User from "./components/User";
+import * as yup from "yup";
+import schema from "./validation/formSchema";
 
 const initialFormValues = {
   name: "",
@@ -29,6 +31,15 @@ function App() {
   const [formErrors, setFormErrors] = useState(initialFormErrors);
   const [disabled, setDisabled] = useState(initialDisabled);
 
+  const getUsers = () => {
+    axios
+      .get(API_URL)
+      .then((res) => {
+        const usersFromApi = res.data;
+        setUsers(usersFromApi);
+      })
+      .catch((err) => console.log(err));
+  };
   const postNewUser = (newUser) => {
     axios
       .post(API_URL, newUser)
@@ -52,11 +63,28 @@ function App() {
   };
 
   const inputChange = (name, value) => {
+    yup
+      .reach(schema, name)
+      .validate(value)
+      .then(() => {
+        setFormErrors({ ...formErrors, [name]: "" });
+      })
+      .catch((err) => {
+        setFormErrors({ ...formErrors, [name]: err.message });
+      });
+
     setFormValues({
       ...formValues,
       [name]: value, // NOT AN ARRAY, nice little syntax: dynamic property, computed property
     });
   };
+
+  useEffect(() => {
+    // 🔥 STEP 9- ADJUST THE STATUS OF `disabled` EVERY TIME `formValues` CHANGES
+    schema.isValid(formValues).then((valid) => {
+      setDisabled(!valid);
+    });
+  }, [formValues]); // dependencies array
 
   return (
     <div className="App">
